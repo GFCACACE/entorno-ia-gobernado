@@ -1,0 +1,3 @@
+[submodule "mcpo"]
+	path = mcpo
+	url = https://github.com/open-webui/mcpo.git
