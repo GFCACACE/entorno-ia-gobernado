@@ -1,0 +1,30 @@
+services:
+  # Servicio para Open WebUI
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    ports:
+      - "3000:8080"
+    volumes:
+      - open-webui:/app/backend/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: always
+
+  # Servicio para Ollama
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    restart: always
+    # Asegura que este contenedor pueda comunicarse con open-webui
+    depends_on:
+      - open-webui
+
+
+volumes:
+  open-webui:
+  ollama-data:
