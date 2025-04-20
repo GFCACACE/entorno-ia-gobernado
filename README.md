@@ -36,17 +36,47 @@ Este repositorio contiene un entorno configurado con servicios de IA utilizando 
    docker-compose down
    ```
 
-## Ejecutar MCPO por separado
+## Ejecutar MCP por separado
 
-Si desea ejecutar MCPO fuera de Docker Compose, consulte el [README de MCPO](./mcpo/README.md) para obtener instrucciones detalladas sobre la instalación y configuración.
+Si desea ejecutar MCP fuera de Docker Compose, puede utilizar la configuración personalizada en la carpeta `mcp-custom`. Esta carpeta contiene un Dockerfile y un archivo de configuración para ejecutar MCP de forma independiente.
+
+### Ejecución con Docker
+
+Para ejecutar el servidor usando Docker, sigue estos pasos:
+
+1. Construir la imagen:
+```bash
+docker build -t mcp-proxy-server .
+```
+
+2. Ejecutar el contenedor:
+```bash
+docker run -d --name mcp-proxy -p 8000:8000 mcp-proxy-server
+```
+
+El servidor estará disponible en `http://localhost:8000`.
+
+3. Para adjuntarlo en OpenWebUI, se debe ir al panel de administrador -> herramientas y agregar una conexión **por servidor** con los siguientes parámetros:
+
+![alt text](resources/parametros_mcp_openwebui.png)
+
+En este ejemplo se hizo con el servidor **/time**. Se debe realizar una nueva conexión poniendo luego de la conexión la ruta con el nombre del servidor que deseamos.
+
+#### Notas adicionales:
+- El flag `-d` ejecuta el contenedor en modo detached (background)
+- El puerto 8000 está expuesto para acceder al servidor
+- Para detener el contenedor: `docker stop mcp-proxy`
+- Para ver los logs: `docker logs mcp-proxy`
 
 ## Estructura del proyecto
 
 ```
 Entorno-IA/
 ├── docker-compose.yaml   # Configuración de Docker Compose
-├── mcpo/                 # Servicio MCPO (MCP-to-OpenAPI proxy)
-├── README.md             # Este archivo
+├── mcp-custom/          # Configuración personalizada de MCPO
+│   ├── Dockerfile      # Configuración de Docker para MCPO
+│   └── config.json     # Configuración de los servidores MCP 
+├── README.md            # Este archivo
 ```
 
 ## Contribuciones

@@ -10,6 +10,8 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     restart: always
+    networks:
+      - ai-network
 
   # Servicio para Ollama
   ollama:
@@ -23,8 +25,24 @@ services:
     # Asegura que este contenedor pueda comunicarse con open-webui
     depends_on:
       - open-webui
-
+    # Configuración de GPU para Windows
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    networks:
+      - ai-network
 
 volumes:
   open-webui:
   ollama-data:
+
+networks:
+  ai-network:
+    name: ai-network
+    driver: bridge
