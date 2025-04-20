@@ -1,0 +1,31 @@
+{
+    "mcpServers": {
+      "time": {
+        "command": "uvx",
+        "args": ["mcp-server-time", "--local-timezone=America/New_York"]
+      },
+      "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/app/Workspace"
+      ]
+    },
+    "ClickUp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@taazkareem/clickup-mcp-server@latest"
+      ],
+      "env": {
+        "CLICKUP_API_KEY": "your-api-key",
+        "CLICKUP_TEAM_ID": "your-team-id"
+      }
+    }
+  
+
+    }
+}
+
+
